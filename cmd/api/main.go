@@ -13,6 +13,5 @@ func main() {
 		api: gin.Default(),
 	}
 
-	app.routes()
 	app.api.Run("localhost:8080")
 }

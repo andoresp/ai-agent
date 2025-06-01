@@ -1,13 +1,1 @@
-POST http://localhost:8080/albums HTTP/1.1
-content-type: application/json
-
-{
-    "id": "3",
-    "title": "I am Music",
-    "artist": "Playboi Carti",
-    "price": 6.66
-}
-
-###
-
-GET http://localhost:8080/albums HTTP/1.1
+GET http://localhost:8080/ping HTTP/1.1
