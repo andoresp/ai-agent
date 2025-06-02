@@ -1,6 +1,9 @@
 package entities
 
-import "math/rand"
+import (
+	"errors"
+	"math/rand"
+)
 
 type Id struct {
 	value string
@@ -10,10 +13,18 @@ func (i *Id) Value() string {
 	return i.value
 }
 
-func NewId() (*Id, error) {
-	alphabet := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+func NewId(id ...string) (*Id, error) {
 	size := 20
 
+	if len(id) > 0 {
+		if len(id[0]) < size {
+			return nil, errors.New("invalid id size")
+		}
+
+		return &Id{id[0]}, nil
+	}
+
+	alphabet := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	var chars []byte
 
 	for i := 0; i < size; i += 1 {

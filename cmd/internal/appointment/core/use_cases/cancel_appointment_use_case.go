@@ -14,7 +14,7 @@ type CancelAppointmentUseCase struct {
 }
 
 func (uc *CancelAppointmentUseCase) Execute(dto CancelAppointmentDto) error {
-	id, err := shared.NewId()
+	id, err := shared.NewId(dto.Id)
 
 	if err != nil {
 		return err
@@ -33,4 +33,10 @@ func (uc *CancelAppointmentUseCase) Execute(dto CancelAppointmentDto) error {
 	}
 
 	return nil
+}
+
+func NewCancelAppointmentUseCase(repo *repositories.AppointmentRepository) *CancelAppointmentUseCase {
+	return &CancelAppointmentUseCase{
+		appointmentRepository: *repo,
+	}
 }

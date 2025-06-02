@@ -14,11 +14,11 @@ func (c *ClientGovernmentId) Value() string {
 }
 
 func NewClientGovernmentId(value string) (*ClientGovernmentId, error) {
-	_, err := regexp.Compile("/^[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}$/")
+	r := regexp.MustCompile(`^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$`)
 
-	if err != nil {
-		return nil, errors.New("invalid client_government_id value")
+	if ok := r.MatchString(value); ok {
+		return &ClientGovernmentId{value}, nil
 	}
 
-	return &ClientGovernmentId{value}, nil
+	return nil, errors.New("invalid client_government_id value")
 }

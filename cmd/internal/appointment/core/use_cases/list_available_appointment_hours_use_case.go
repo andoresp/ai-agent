@@ -20,3 +20,10 @@ func (uc *ListAvailableAppointmentHoursUseCase) Execute() (*[]entities.Appointme
 	}
 	return ah, nil
 }
+
+func NewListAvailableAppointmentHoursUseCase(repo *repositories.AppointmentRepository, service *services.AppointmentHoursService) *ListAvailableAppointmentHoursUseCase {
+	return &ListAvailableAppointmentHoursUseCase{
+		appointmentRepository:   *repo,
+		appointmentHoursService: *service,
+	}
+}

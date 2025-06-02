@@ -60,7 +60,7 @@ func (repo *AppointmentRepositoryInMemory) FindByGovernmentId(governmentId entit
 		return &repo.appointments[idx], nil
 	}
 
-	return nil, errors.New("appointment not found")
+	return nil, errors.New("appointment not found by government id")
 }
 
 // FindByClientName implements repositories.AppointmentRepository.
@@ -73,7 +73,7 @@ func (repo *AppointmentRepositoryInMemory) FindByClientName(name entities.Client
 		return &repo.appointments[idx], nil
 	}
 
-	return nil, errors.New("appointment not found")
+	return nil, errors.New("appointment not found by client name")
 }
 
 // FindById implements repositories.AppointmentRepository.
@@ -86,7 +86,7 @@ func (repo *AppointmentRepositoryInMemory) FindById(id shared.Id) (*entities.App
 		return &repo.appointments[idx], nil
 	}
 
-	return nil, errors.New("appointment not found")
+	return nil, errors.New("appointment not found by id")
 }
 
 // Create implements repositories.AppointmentRepository.

@@ -1,1 +1,26 @@
-GET http://localhost:8080/ping HTTP/1.1
+GET http://localhost:8080/appointment?client_name=Andre HTTP/1.1
+
+###
+
+GET http://localhost:8080/appointment/available-hours HTTP/1.1
+
+###
+
+
+POST http://localhost:8080/appointment HTTP/1.1
+content-type: application/json
+
+{
+    "client_name": "Andre",
+    "client_government_id": "444.444.444-44"
+}
+
+###
+
+DELETE http://localhost:8080/appointment/o9sTXpCyc6XvnY8P5vmU HTTP/1.1
+content-type: application/json
+
+
+
+
+

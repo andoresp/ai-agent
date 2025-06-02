@@ -8,9 +8,9 @@ import (
 )
 
 type MakeAppointmentDto struct {
-	Date               string
-	ClientName         string
-	ClientGovernmentId string
+	Date               string `json:"date"`
+	ClientName         string `json:"client_name"`
+	ClientGovernmentId string `json:"client_government_id"`
 }
 
 type MakeAppointmentUseCase struct {
@@ -45,4 +45,11 @@ func (uc *MakeAppointmentUseCase) Execute(dto MakeAppointmentDto) (*entities.App
 	}
 
 	return a, nil
+}
+
+func NewMakeAppoinmentUseCase(repo *repositories.AppointmentRepository, service *services.AppointmentHoursService) *MakeAppointmentUseCase {
+	return &MakeAppointmentUseCase{
+		appointmentRepository:   *repo,
+		appointmentHoursService: *service,
+	}
 }

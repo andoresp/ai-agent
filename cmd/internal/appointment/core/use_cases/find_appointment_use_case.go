@@ -32,7 +32,7 @@ func (uc *FindAppointmentUseCase) Execute(dto FindAppointmentDto) (*entities.App
 		return a, nil
 	}
 
-	if dto.ClientName == "" {
+	if dto.ClientName != "" {
 		cn, err := entities.NewClientName(dto.ClientName)
 
 		if err != nil {
@@ -49,4 +49,10 @@ func (uc *FindAppointmentUseCase) Execute(dto FindAppointmentDto) (*entities.App
 	}
 
 	return nil, errors.New("appointment not found")
+}
+
+func NewFindAppointmentUseCase(repo *repositories.AppointmentRepository) *FindAppointmentUseCase {
+	return &FindAppointmentUseCase{
+		appointmentRepository: *repo,
+	}
 }
