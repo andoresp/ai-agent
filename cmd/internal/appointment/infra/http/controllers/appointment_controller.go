@@ -106,7 +106,7 @@ func (ac *AppointmentController) ListAvailableHours(c *gin.Context) {
 
 func NewAppointmentController() *AppointmentController {
 	repo := repositories.NewAppointmentRepositoryInMemory()
-	service := services.NewAppointmentHoursService()
+	service := services.NewAppointmentHoursService(3, 8)
 
 	return &AppointmentController{
 		findAppointmentUseCase:               *usecases.NewFindAppointmentUseCase(&repo),

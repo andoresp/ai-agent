@@ -10,20 +10,20 @@ import (
 )
 
 type AppointmentRepositoryInMemory struct {
-	appointments []entities.Appointment
+	appointments []*entities.Appointment
 }
 
 // FindAllByDates implements repositories.AppointmentRepository.
-func (repo *AppointmentRepositoryInMemory) FindAllByDates(dates []time.Time) (*[]entities.Appointment, error) {
-	var datesu []int64
+func (repo *AppointmentRepositoryInMemory) FindAllByDates(dates []time.Time) ([]*entities.Appointment, error) {
+	var dstr []string
 
-	for _, v := range repo.appointments {
-		datesu = append(datesu, v.Date().Unix())
+	for _, v := range dates {
+		dstr = append(dstr, v.Format(time.RFC3339))
 	}
 
-	filter := func(yield func(entities.Appointment) bool) {
+	filter := func(yield func(*entities.Appointment) bool) {
 		for _, a := range repo.appointments {
-			if slices.Contains(datesu, a.Date().Unix()) {
+			if slices.Contains(dstr, a.Date().Format(time.RFC3339)) {
 				if !yield(a) {
 					return
 				}
@@ -31,19 +31,17 @@ func (repo *AppointmentRepositoryInMemory) FindAllByDates(dates []time.Time) (*[
 		}
 	}
 
-	aps := slices.Collect(filter)
-
-	return &aps, nil
+	return slices.Collect(filter), nil
 }
 
 // FindByDate implements repositories.AppointmentRepository.
 func (repo *AppointmentRepositoryInMemory) FindByDate(date time.Time) (*entities.Appointment, error) {
-	idx := slices.IndexFunc(repo.appointments, func(a entities.Appointment) bool {
+	idx := slices.IndexFunc(repo.appointments, func(a *entities.Appointment) bool {
 		return a.Date().Unix() == date.Unix()
 	})
 
 	if idx >= 0 {
-		return &repo.appointments[idx], nil
+		return repo.appointments[idx], nil
 	}
 
 	return nil, errors.New("appointment not found")
@@ -52,12 +50,12 @@ func (repo *AppointmentRepositoryInMemory) FindByDate(date time.Time) (*entities
 
 // FindByGovernmentId implements repositories.AppointmentRepository.
 func (repo *AppointmentRepositoryInMemory) FindByGovernmentId(governmentId entities.ClientGovernmentId) (*entities.Appointment, error) {
-	idx := slices.IndexFunc(repo.appointments, func(a entities.Appointment) bool {
+	idx := slices.IndexFunc(repo.appointments, func(a *entities.Appointment) bool {
 		return a.ClientGovernmentId() == governmentId.Value()
 	})
 
 	if idx >= 0 {
-		return &repo.appointments[idx], nil
+		return repo.appointments[idx], nil
 	}
 
 	return nil, errors.New("appointment not found by government id")
@@ -65,12 +63,12 @@ func (repo *AppointmentRepositoryInMemory) FindByGovernmentId(governmentId entit
 
 // FindByClientName implements repositories.AppointmentRepository.
 func (repo *AppointmentRepositoryInMemory) FindByClientName(name entities.ClientName) (*entities.Appointment, error) {
-	idx := slices.IndexFunc(repo.appointments, func(a entities.Appointment) bool {
+	idx := slices.IndexFunc(repo.appointments, func(a *entities.Appointment) bool {
 		return a.ClientName() == name.Value()
 	})
 
 	if idx >= 0 {
-		return &repo.appointments[idx], nil
+		return repo.appointments[idx], nil
 	}
 
 	return nil, errors.New("appointment not found by client name")
@@ -78,12 +76,12 @@ func (repo *AppointmentRepositoryInMemory) FindByClientName(name entities.Client
 
 // FindById implements repositories.AppointmentRepository.
 func (repo *AppointmentRepositoryInMemory) FindById(id shared.Id) (*entities.Appointment, error) {
-	idx := slices.IndexFunc(repo.appointments, func(a entities.Appointment) bool {
+	idx := slices.IndexFunc(repo.appointments, func(a *entities.Appointment) bool {
 		return a.Id() == id.Value()
 	})
 
 	if idx >= 0 {
-		return &repo.appointments[idx], nil
+		return repo.appointments[idx], nil
 	}
 
 	return nil, errors.New("appointment not found by id")
@@ -103,7 +101,7 @@ func (repo *AppointmentRepositoryInMemory) Create(date time.Time, client entitie
 		return nil, err
 	}
 
-	repo.appointments = append(repo.appointments, *a)
+	repo.appointments = append(repo.appointments, a)
 
 	return a, nil
 }

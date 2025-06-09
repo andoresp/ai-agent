@@ -13,6 +13,6 @@ func (c *Client) GovernmentId() string {
 	return c.governmentId.value
 }
 
-func NewClient(name ClientName, governmentId ClientGovernmentId) (*Client, error) {
-	return &Client{name, governmentId}, nil
+func NewClient(name ClientName, governmentId ClientGovernmentId) *Client {
+	return &Client{name, governmentId}
 }
