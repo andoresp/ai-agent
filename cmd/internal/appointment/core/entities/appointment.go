@@ -6,9 +6,9 @@ import (
 )
 
 type Appointment struct {
-	id     shared.Id
+	id     *shared.Id
 	date   time.Time
-	client Client
+	client *Client
 }
 
 func (a *Appointment) Id() string {
@@ -27,6 +27,6 @@ func (a *Appointment) ClientGovernmentId() string {
 	return a.client.GovernmentId()
 }
 
-func NewAppointment(id shared.Id, date time.Time, client Client) (*Appointment, error) {
+func NewAppointment(id *shared.Id, date time.Time, client *Client) (*Appointment, error) {
 	return &Appointment{id, date, client}, nil
 }

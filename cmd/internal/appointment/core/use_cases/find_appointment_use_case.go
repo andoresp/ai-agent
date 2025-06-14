@@ -23,7 +23,7 @@ func (uc *FindAppointmentUseCase) Execute(dto FindAppointmentDto) (*entities.App
 			return nil, err
 		}
 
-		a, err := uc.appointmentRepository.FindByGovernmentId(*cgn)
+		a, err := uc.appointmentRepository.FindByGovernmentId(cgn)
 
 		if err != nil {
 			return nil, err
@@ -39,7 +39,7 @@ func (uc *FindAppointmentUseCase) Execute(dto FindAppointmentDto) (*entities.App
 			return nil, err
 		}
 
-		a, err := uc.appointmentRepository.FindByClientName(*cn)
+		a, err := uc.appointmentRepository.FindByClientName(cn)
 
 		if err != nil {
 			return nil, err

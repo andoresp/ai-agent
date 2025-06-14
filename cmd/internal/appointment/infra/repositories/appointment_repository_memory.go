@@ -49,7 +49,7 @@ func (repo *AppointmentRepositoryInMemory) FindByDate(date time.Time) (*entities
 }
 
 // FindByGovernmentId implements repositories.AppointmentRepository.
-func (repo *AppointmentRepositoryInMemory) FindByGovernmentId(governmentId entities.ClientGovernmentId) (*entities.Appointment, error) {
+func (repo *AppointmentRepositoryInMemory) FindByGovernmentId(governmentId *entities.ClientGovernmentId) (*entities.Appointment, error) {
 	idx := slices.IndexFunc(repo.appointments, func(a *entities.Appointment) bool {
 		return a.ClientGovernmentId() == governmentId.Value()
 	})
@@ -62,7 +62,7 @@ func (repo *AppointmentRepositoryInMemory) FindByGovernmentId(governmentId entit
 }
 
 // FindByClientName implements repositories.AppointmentRepository.
-func (repo *AppointmentRepositoryInMemory) FindByClientName(name entities.ClientName) (*entities.Appointment, error) {
+func (repo *AppointmentRepositoryInMemory) FindByClientName(name *entities.ClientName) (*entities.Appointment, error) {
 	idx := slices.IndexFunc(repo.appointments, func(a *entities.Appointment) bool {
 		return a.ClientName() == name.Value()
 	})
@@ -75,7 +75,7 @@ func (repo *AppointmentRepositoryInMemory) FindByClientName(name entities.Client
 }
 
 // FindById implements repositories.AppointmentRepository.
-func (repo *AppointmentRepositoryInMemory) FindById(id shared.Id) (*entities.Appointment, error) {
+func (repo *AppointmentRepositoryInMemory) FindById(id *shared.Id) (*entities.Appointment, error) {
 	idx := slices.IndexFunc(repo.appointments, func(a *entities.Appointment) bool {
 		return a.Id() == id.Value()
 	})
@@ -88,14 +88,14 @@ func (repo *AppointmentRepositoryInMemory) FindById(id shared.Id) (*entities.App
 }
 
 // Create implements repositories.AppointmentRepository.
-func (repo *AppointmentRepositoryInMemory) Create(date time.Time, client entities.Client) (*entities.Appointment, error) {
+func (repo *AppointmentRepositoryInMemory) Create(date time.Time, client *entities.Client) (*entities.Appointment, error) {
 	id, err := shared.NewId()
 
 	if err != nil {
 		return nil, err
 	}
 
-	a, err := entities.NewAppointment(*id, date, client)
+	a, err := entities.NewAppointment(id, date, client)
 
 	if err != nil {
 		return nil, err
@@ -107,7 +107,7 @@ func (repo *AppointmentRepositoryInMemory) Create(date time.Time, client entitie
 }
 
 // Delete implements repositories.AppointmentRepository.
-func (repo *AppointmentRepositoryInMemory) Delete(appointment entities.Appointment) error {
+func (repo *AppointmentRepositoryInMemory) Delete(appointment *entities.Appointment) error {
 	idx := -1
 
 	for i, v := range repo.appointments {

@@ -1,8 +1,8 @@
 package entities
 
 type Client struct {
-	name         ClientName
-	governmentId ClientGovernmentId
+	name         *ClientName
+	governmentId *ClientGovernmentId
 }
 
 func (c *Client) Name() string {
@@ -13,6 +13,6 @@ func (c *Client) GovernmentId() string {
 	return c.governmentId.value
 }
 
-func NewClient(name ClientName, governmentId ClientGovernmentId) *Client {
+func NewClient(name *ClientName, governmentId *ClientGovernmentId) *Client {
 	return &Client{name, governmentId}
 }

@@ -45,7 +45,7 @@ func (uc *MakeAppointmentUseCase) Execute(dto MakeAppointmentDto) (*entities.App
 		return nil, err
 	}
 
-	if ok, _ := uc.appointmentRepository.FindByGovernmentId(*cgi); ok != nil {
+	if ok, _ := uc.appointmentRepository.FindByGovernmentId(cgi); ok != nil {
 		return nil, errors.New("unable to make appointment, because, an appointment for the given client already exists")
 	}
 
@@ -53,7 +53,7 @@ func (uc *MakeAppointmentUseCase) Execute(dto MakeAppointmentDto) (*entities.App
 		return nil, errors.New("unable to make appointment, because, the date is already taken")
 	}
 
-	c := entities.NewClient(*cn, *cgi)
+	c := entities.NewClient(cn, cgi)
 	naps := uc.appointmentHoursService.ListNextHours()
 
 	isTimeAvailable := slices.ContainsFunc(naps, func(nat time.Time) bool {
@@ -64,7 +64,7 @@ func (uc *MakeAppointmentUseCase) Execute(dto MakeAppointmentDto) (*entities.App
 		return nil, errors.New("unable to make appointment, because, the date is not available")
 	}
 
-	a, err := uc.appointmentRepository.Create(t, *c)
+	a, err := uc.appointmentRepository.Create(t, c)
 
 	if err != nil {
 		return nil, err

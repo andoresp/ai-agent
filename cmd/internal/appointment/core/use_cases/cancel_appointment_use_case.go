@@ -20,13 +20,13 @@ func (uc *CancelAppointmentUseCase) Execute(dto CancelAppointmentDto) error {
 		return err
 	}
 
-	a, err := uc.appointmentRepository.FindById(*id)
+	a, err := uc.appointmentRepository.FindById(id)
 
 	if err != nil {
 		return err
 	}
 
-	err = uc.appointmentRepository.Delete(*a)
+	err = uc.appointmentRepository.Delete(a)
 
 	if err != nil {
 		return err
